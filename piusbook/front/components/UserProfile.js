@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { logoutAction } from '../reducer/user.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutRequestAction } from '../reducer/user.js';
 const Card = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -9,6 +9,7 @@ const Card = styled.div`
 	border-radius: 5px;
 	padding: 5px;
 	margin: 5px;
+	background-color: #fff;
 `;
 const ProfileWrapper = styled.div`
 	flex-grow: 2;
@@ -46,22 +47,35 @@ const Actions = styled.div`
 const UserProfile = () => {
 	const dispatch = useDispatch();
 
+	const { me, logOutLoading } = useSelector(state => state.user);
 	const logOut = useCallback(() => {
-		dispatch(logoutAction());
+		dispatch(logoutRequestAction());
 	}, []);
 	return (
 		<Card>
 			<ProfileWrapper>
-				<Avator></Avator>
+				<Avator>{me.nickname[0]}</Avator>
 				<Profile>
-					<NickName>pius</NickName>
+					<NickName>{me.nickname}</NickName>
 					<button onClick={logOut}>로그아웃</button>
 				</Profile>
 			</ProfileWrapper>
 			<Actions>
-				<ActionsItem>게시</ActionsItem>
-				<ActionsItem>팔로워</ActionsItem>
-				<ActionsItem>팔로잉</ActionsItem>
+				<ActionsItem>
+					게시
+					<br />
+					{me.Posts.length}
+				</ActionsItem>
+				<ActionsItem>
+					팔로워
+					<br />
+					{me.Followings.length}
+				</ActionsItem>
+				<ActionsItem>
+					팔로잉
+					<br />
+					{me.Followers.length}
+				</ActionsItem>
 			</Actions>
 		</Card>
 	);

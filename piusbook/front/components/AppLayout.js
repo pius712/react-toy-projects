@@ -13,7 +13,14 @@ const Header = styled.div`
 	align-items: center; */
 	margin-bottom: 15px;
 `;
-
+const Banner = styled.div`
+	background-color: #5f0080;
+	height: 42px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
 const UseMenu = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -30,10 +37,11 @@ const Divider = styled.span`
 	margin-left: 5px;
 `;
 const AppLayout = ({ children }) => {
-	const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+	const { me } = useSelector(state => state.user);
 	return (
 		<div>
 			<Header>
+				<Banner>Piusbook</Banner>
 				<UseMenu>
 					<div>
 						<Link href="/">
@@ -54,11 +62,15 @@ const AppLayout = ({ children }) => {
 				<GlobalNavigationBar></GlobalNavigationBar>
 			</Header>
 			<Row>
-				<Col xs={6}>
-					{isLoggedIn ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
+				<Col xs={24} md={6}>
+					{me ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
 				</Col>
-				<Col xs={12}>중간 {children}</Col>
-				<Col xs={6}>오른쪽</Col>
+				<Col xs={24} md={12}>
+					중간 {children}
+				</Col>
+				<Col xs={24} md={6}>
+					Made by pius
+				</Col>
 			</Row>
 		</div>
 	);
