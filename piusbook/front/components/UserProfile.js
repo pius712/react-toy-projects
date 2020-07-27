@@ -69,12 +69,12 @@ const UserProfile = () => {
 				<ActionsItem>
 					팔로워
 					<br />
-					{me.Followings.length}
+					{me.Followers.length}
 				</ActionsItem>
 				<ActionsItem>
 					팔로잉
 					<br />
-					{me.Followers.length}
+					{me.Followings.length}
 				</ActionsItem>
 			</Actions>
 		</Card>

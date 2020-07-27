@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate =(db)=>{
     db.User.hasMany(db.Post);
     db.User.hasMany(db.Comment);
-    db.User.belongsToMany(db.Post, {through: 'Like', as :'Likers'});
+    db.User.belongsToMany(db.Post, {through: 'Like', as : 'Liked'});
     db.User.belongsToMany(db.User, {through: 'Follow', as:'Followers', foreignKey:'FollowingId'})
     db.User.belongsToMany(db.User, {through: 'Follow', as:'Followings', foreignKey: 'FollowerId'}
     // User와 User가 N:M 관계를 가지기 때문에 중간에 Follow라는 이름의 junction table이 생긴다. 

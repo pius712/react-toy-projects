@@ -51,9 +51,10 @@ router.post('/logout', isLoggedIn, (req,res,next)=>{
   req.session.destroy();
   res.send('log out success');
 })
-// GET /user 
+// GET /user  내 정보 불러오기
 router.get('/', async (req,res,next)=>{
   try{
+    console.log(req.cookies);
     if(req.user){
       const userWithoutPassword = await User.findOne({
         where:{
@@ -107,5 +108,108 @@ router.post('/', isNotLoggedIn,async (req, res, next)=>{
     console.log(err);
     next(err);
   }  
+})
+// 닉네임 수정
+router.patch('/edit/nickname',isLoggedIn, async(req,res,next)=>{
+  try{
+    await User.update({
+      nickname: req.body.nickname 
+    },{
+      where:{
+        id: req.user.id
+      }
+    })
+    res.json({nickname: req.body.nickname});
+  }catch(err){
+    console.error(err);
+    next(err);
+  }
+})
+
+// 팔로우 
+router.patch('/:userId/follow', isLoggedIn, async(req, res,next)=>{
+  try{
+    const user = await User.findOne({
+      where:{
+        id: req.params.userId
+      }
+    });
+    if(!user){
+      return res.status(403).send('존재하지 않는 회원입니다.')
+    }
+    user.addFollower(req.user.id);
+    return res.json({ FollowingId: parseInt(req.params.userId), FollowerId: req.user.id})
+  }catch(err){
+    console.error(err);
+    next(err);
+  }
+})
+
+// 언팔로우
+router.patch('/:userId/unfollow', isLoggedIn, async(req,res,next)=>{
+  try{
+    const user = await User.findOne({
+      where:{
+        id: req.user.id
+      }
+    })
+    if(!user){
+      return res.status(403).send('존재하지 않는 회원입니다.')
+    }
+    await user.removeFollowing(req.params.userId);
+    return res.json({ FollowingId: parseInt(req.params.userId), FollowerId: req.user.id});
+  }catch(err){
+    console.error(err);
+    next(err);
+  }
+}) 
+// 팔로잉 목록
+router.get('/followings', async(req,res,next)=>{
+  try{
+    const user = await User.findOne({
+      where: {
+        id: req.user.id
+      }
+    })
+    const followings = await user.getFollowings();
+    res.json(followings);
+  }catch(err){
+    console.error(err);
+    next(err);
+  }
+})
+// 팔로워 목록
+router.get('/followers', async(req,res,next)=>{
+  try{
+    const user = await User.findOne({
+      where:{
+        id: req.user.id
+      }
+    });
+    const followers = await user.getFollowers();
+    res.json(followers);
+  }catch(err){
+    console.error(err);
+    next(err);
+  }
+})
+// 팔로워 삭제
+router.delete('/follower/:userId', async(req,res,next)=>{
+  try{
+    const user = await User.findOne({
+      where: {
+        id : req.user.id
+      }
+    });
+    if(!user){
+      res.status(403).send('존재하지 않는 회원입니다.');
+    }else{
+      await user.removeFollower(req.params.userId);
+      res.json({UserId: parseInt(req.params.userId)});
+    }
+  }catch(err){
+    console.error(err);
+    next(err);
+  }
 })
 module.exports = router; 

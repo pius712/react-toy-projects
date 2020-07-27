@@ -3,8 +3,11 @@ import AppLayout from '../components/AppLayout';
 import styled from 'styled-components';
 import useInput from '../hooks/useInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { SIGN_UP_REQUEST } from '../actions';
+import { SIGN_UP_REQUEST, LOAD_MY_INFO_REQUEST } from '../actions';
 import Router from 'next/router';
+import axios from 'axios';
+import wrapper from '../store/configureStore';
+import { END } from 'redux-saga';
 const SignupForm = styled.form`
 	border: 1px solid gray;
 `;
@@ -133,3 +136,19 @@ const Signup = () => {
 };
 
 export default Signup;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+	async ({ store, req }) => {
+		const cookie = req ? req.headers.cookie : '';
+		axios.defaults.headers.Cookie = '';
+		if (req && cookie) {
+			axios.defaults.headers.Cookie = cookie;
+		}
+
+		store.dispatch({
+			type: LOAD_MY_INFO_REQUEST,
+		});
+		store.dispatch(END);
+		await store.sagaTask.toPromise();
+	},
+);

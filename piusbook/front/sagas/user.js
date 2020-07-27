@@ -1,5 +1,24 @@
-import { put, delay, takeLatest, all, fork, call } from 'redux-saga/effects';
-import { registerUser, loginUser, logoutUser, fetchMyInfo } from '../API/index';
+import {
+	put,
+	delay,
+	takeLatest,
+	all,
+	fork,
+	call,
+	take,
+} from 'redux-saga/effects';
+import {
+	registerUser,
+	loginUser,
+	logoutUser,
+	fetchMyInfo,
+	editNicknameAPI,
+	followAPI,
+	unfollowAPI,
+	loadFollowersAPI,
+	loadFollowingsAPI,
+	removeFollowerAPI,
+} from '../API/index';
 import {
 	LOG_IN_REQUEST,
 	LOG_IN_SUCCESS,
@@ -19,6 +38,18 @@ import {
 	LOAD_MY_INFO_REQUEST,
 	LOAD_MY_INFO_SUCCESS,
 	LOAD_MY_INFO_FAILURE,
+	EDIT_NICKNAME_REQUEST,
+	EDIT_NICKNAME_FAILURE,
+	EDIT_NICKNAME_SUCCESS,
+	LOAD_FOLLOWINGS_REQUEST,
+	LOAD_FOLLOWINGS_SUCCESS,
+	LOAD_FOLLOWINGS_FAILURE,
+	LOAD_FOLLOWERS_REQUEST,
+	LOAD_FOLLOWERS_FAILURE,
+	LOAD_FOLLOWERS_SUCCESS,
+	REMOVE_FOLLOWER_REQUEST,
+	REMOVE_FOLLOWER_FAILURE,
+	REMOVE_FOLLOWER_SUCCESS,
 } from '../actions';
 
 function* login(action) {
@@ -70,10 +101,11 @@ function* signup(action) {
 }
 function* follow(action) {
 	try {
-		yield delay(1000);
+		const result = yield call(followAPI, action.data);
+		// yield delay(1000);
 		yield put({
 			type: FOLLOW_SUCCESS,
-			data: action.data,
+			data: result.data,
 		});
 	} catch (err) {
 		yield put({
@@ -84,9 +116,10 @@ function* follow(action) {
 }
 function* unfollow(action) {
 	try {
+		const result = yield call(unfollowAPI, action.data);
 		yield put({
 			type: UNFOLLOW_SUCCESS,
-			data: action.data,
+			data: result.data,
 		});
 	} catch (err) {
 		yield put({
@@ -108,6 +141,64 @@ function* loadMyInfo() {
 		});
 	}
 }
+function* editNickname(action) {
+	try {
+		const result = yield call(editNicknameAPI, action.data);
+		yield put({
+			type: EDIT_NICKNAME_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		yield put({
+			type: EDIT_NICKNAME_FAILURE,
+			data: err.response.message,
+		});
+	}
+}
+function* loadFollowings() {
+	try {
+		const result = yield call(loadFollowingsAPI);
+		yield put({
+			type: LOAD_FOLLOWINGS_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		yield put({
+			type: LOAD_FOLLOWERS_FAILURE,
+			data: err.response.message,
+		});
+	}
+}
+function* loadFollowers() {
+	try {
+		const result = yield call(loadFollowersAPI);
+		yield put({
+			type: LOAD_FOLLOWERS_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		yield put({
+			type: LOAD_FOLLOWINGS_FAILURE,
+			data: err.response.message,
+		});
+	}
+}
+function* removeFollower(action) {
+	try {
+		const result = yield call(removeFollowerAPI, action.data);
+		yield put({
+			type: REMOVE_FOLLOWER_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		console.error(err);
+		yield put({
+			type: REMOVE_FOLLOWER_FAILURE,
+			data: err.response.message,
+		});
+	}
+}
+// watch 사가
 function* watchLogin() {
 	console.log('watch login saga');
 	yield takeLatest(LOG_IN_REQUEST, login);
@@ -128,6 +219,18 @@ function* watchUnfollow() {
 function* watchLoadInfo() {
 	yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
+function* watchEditNickname() {
+	yield takeLatest(EDIT_NICKNAME_REQUEST, editNickname);
+}
+function* watchLoadFollowings() {
+	yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
+}
+function* watchLoadFollowers() {
+	yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers);
+}
+function* watchRemoveFollower() {
+	yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
+}
 export default function* userSaga() {
 	yield all([
 		fork(watchLogin),
@@ -136,5 +239,9 @@ export default function* userSaga() {
 		fork(watchFollow),
 		fork(watchUnfollow),
 		fork(watchLoadInfo),
+		fork(watchEditNickname),
+		fork(watchLoadFollowings),
+		fork(watchLoadFollowers),
+		fork(watchRemoveFollower),
 	]);
 }

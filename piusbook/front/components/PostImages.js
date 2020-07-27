@@ -76,13 +76,20 @@ const PostImages = ({ images }) => {
 		<>
 			<ImageContainer>
 				<LeftImageContainer>
-					<HalfImage src={images[0].src} alt="" onClick={onZoomImage} />
+					<HalfImage
+						src={`http://localhost:8080/${images[0].src}`}
+						alt=""
+						onClick={onZoomImage}
+					/>
 				</LeftImageContainer>
 				<RightImageContainer>
-					<UpperImage src={images[1].src} onClick={onZoomImage}></UpperImage>
+					<UpperImage
+						src={`http://localhost:8080/${images[1].src}`}
+						onClick={onZoomImage}
+					></UpperImage>
 					<LowerImageContainer>
 						<LowerImageBackground
-							src={images[2].src}
+							src={`http://localhost:8080/${images[2].src}`}
 							onClick={onZoomImage}
 						></LowerImageBackground>
 						<LowerImageForeground>더보기</LowerImageForeground>

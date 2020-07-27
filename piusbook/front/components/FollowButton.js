@@ -6,20 +6,22 @@ const FollowButton = ({ post }) => {
 	const { me } = useSelector(state => state.user);
 	const isFollowing =
 		me && me.Followings.find(following => following.id === post.User.id);
-	console.log(isFollowing);
 	const dispatch = useDispatch();
 	// console.log('followbutton', post.User);
 	const onClickFollow = useCallback(() => {
-		console.log(isFollowing);
 		if (isFollowing) {
 			dispatch({
 				type: UNFOLLOW_REQUEST,
-				data: post.User.id,
+				data: {
+					UserId: post.User.id,
+				},
 			});
 		} else {
 			dispatch({
 				type: FOLLOW_REQUEST,
-				data: post.User.id,
+				data: {
+					UserId: post.User.id,
+				},
 			});
 		}
 	}, [dispatch, isFollowing, post]);
