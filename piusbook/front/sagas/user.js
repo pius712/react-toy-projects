@@ -12,6 +12,7 @@ import {
 	loginUser,
 	logoutUser,
 	fetchMyInfo,
+	loadUserAPI,
 	editNicknameAPI,
 	followAPI,
 	unfollowAPI,
@@ -38,6 +39,9 @@ import {
 	LOAD_MY_INFO_REQUEST,
 	LOAD_MY_INFO_SUCCESS,
 	LOAD_MY_INFO_FAILURE,
+	LOAD_USER_REQUEST,
+	LOAD_USER_SUCCESS,
+	LOAD_USER_FAILURE,
 	EDIT_NICKNAME_REQUEST,
 	EDIT_NICKNAME_FAILURE,
 	EDIT_NICKNAME_SUCCESS,
@@ -141,6 +145,22 @@ function* loadMyInfo() {
 		});
 	}
 }
+
+function* loadUser(action) {
+	try {
+		const result = yield call(loadUserAPI, action.data);
+		yield put({
+			type: LOAD_USER_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		console.error(err);
+		yield put({
+			type: LOAD_USER_FAILURE,
+			error: err.response.data,
+		});
+	}
+}
 function* editNickname(action) {
 	try {
 		const result = yield call(editNicknameAPI, action.data);
@@ -219,6 +239,10 @@ function* watchUnfollow() {
 function* watchLoadInfo() {
 	yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
+
+function* watchLoadUser() {
+	yield takeLatest(LOAD_USER_REQUEST, loadUser);
+}
 function* watchEditNickname() {
 	yield takeLatest(EDIT_NICKNAME_REQUEST, editNickname);
 }
@@ -239,6 +263,7 @@ export default function* userSaga() {
 		fork(watchFollow),
 		fork(watchUnfollow),
 		fork(watchLoadInfo),
+		fork(watchLoadUser),
 		fork(watchEditNickname),
 		fork(watchLoadFollowings),
 		fork(watchLoadFollowers),

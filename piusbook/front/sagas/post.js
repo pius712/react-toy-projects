@@ -37,6 +37,12 @@ import {
 	LOAD_A_POST_REQUEST,
 	LOAD_A_POST_SUCCESS,
 	LOAD_A_POST_FAILURE,
+	LOAD_USER_POSTS_REQUEST,
+	LOAD_USER_POSTS_SUCCESS,
+	LOAD_USER_POSTS_FAILURE,
+	LOAD_HASHTAG_POSTS_REQUEST,
+	LOAD_HASHTAG_POSTS_SUCCESS,
+	LOAD_HASHTAG_POSTS_FAILURE,
 } from '../actions/index';
 // import shortid from 'shortid';
 // import { generateDummyPost } from '../reducer/post';
@@ -50,6 +56,8 @@ import {
 	uploadImagesAPI,
 	retweetAPI,
 	loadAPostAPI,
+	loadUserPostsAPI,
+	loadHashtagPostsAPI,
 } from '../API/index';
 function* addPost(action) {
 	// console.log('saga add post');
@@ -208,6 +216,35 @@ function* retweet(action) {
 		});
 	}
 }
+
+function* loadUserPosts(action) {
+	try {
+		const result = yield call(loadUserPostsAPI, action.data, action.lastId);
+		yield put({
+			type: LOAD_USER_POSTS_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		yield put({
+			type: LOAD_USER_POSTS_FAILURE,
+			data: err.response.data,
+		});
+	}
+}
+function* loadHashtagPosts(action) {
+	try {
+		const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
+		yield put({
+			type: LOAD_HASHTAG_POSTS_SUCCESS,
+			data: result.data,
+		});
+	} catch (err) {
+		yield put({
+			type: LOAD_HASHTAG_POSTS_FAILURE,
+			data: err.response.data,
+		});
+	}
+}
 function* watchAddPost() {
 	// console.log('saga post');
 	yield takeLatest(ADD_POST_REQUEST, addPost);
@@ -239,6 +276,13 @@ function* watchRetweet() {
 function* watchLoadAPost() {
 	yield takeLatest(LOAD_A_POST_REQUEST, loadAPost);
 }
+
+function* watchLoadUserPosts() {
+	yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
+function* watchLoadHashtagPosts() {
+	yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+}
 export default function* postSaga() {
 	yield all([
 		fork(watchAddPost),
@@ -250,5 +294,7 @@ export default function* postSaga() {
 		fork(watchUploadImages),
 		fork(watchRetweet),
 		fork(watchLoadAPost),
+		fork(watchLoadUserPosts),
+		fork(watchLoadHashtagPosts),
 	]);
 }

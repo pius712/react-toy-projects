@@ -32,6 +32,9 @@ import {
 	REMOVE_FOLLOWER_REQUEST,
 	REMOVE_FOLLOWER_SUCCESS,
 	REMOVE_FOLLOWER_FAILURE,
+	LOAD_USER_REQUEST,
+	LOAD_USER_SUCCESS,
+	LOAD_USER_FAILURE,
 } from '../actions/index.js';
 
 export const initialState = {
@@ -48,6 +51,7 @@ export const initialState = {
 	editNicknameDone: false,
 	editNicknameError: null,
 	me: null,
+	userInfo: null,
 	signupData: null,
 	loginData: null,
 	followLoading: false,
@@ -68,6 +72,9 @@ export const initialState = {
 	removeFollowerLoading: false,
 	removeFollowerDone: false,
 	removeFollowerError: null,
+	loadUserLoading: false, // 유저 정보 가져오기 시도중
+	loadUserDone: false,
+	loadUserError: null,
 };
 
 const dummyUser = data => ({
@@ -279,6 +286,20 @@ const reducer = (state = initialState, action) => {
 				draftState.removeFollowerLoading = false;
 				draftState.removeFollowerDone = false;
 				draftState.removeFollowerError = action.data;
+				break;
+			case LOAD_USER_REQUEST:
+				draftState.loadUserLoading = true;
+				draftState.loadUserError = null;
+				draftState.loadUserDone = false;
+				break;
+			case LOAD_USER_SUCCESS:
+				draftState.loadUserLoading = false;
+				draftState.userInfo = action.data;
+				draftState.loadUserDone = true;
+				break;
+			case LOAD_USER_FAILURE:
+				draftState.loadUserLoading = false;
+				draftState.loadUserError = action.error;
 				break;
 			default:
 				break;

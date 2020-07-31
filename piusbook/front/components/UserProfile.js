@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { Avatar } from 'antd';
 import { logoutRequestAction } from '../reducer/user.js';
+import Link from 'next/link';
 const Card = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -17,11 +19,11 @@ const ProfileWrapper = styled.div`
 	display: flex;
 	/* border-bottom: 1px solid gray; */
 `;
-const Avator = styled.div`
-	flex-grow: 1;
+// const Avator = styled.div`
+// 	flex-grow: 1;
 
-	/* border-bottom: 1px solid gray; */
-`;
+// 	/* border-bottom: 1px solid gray; */
+// `;
 const Profile = styled.div`
 	flex-grow: 1;
 `;
@@ -54,7 +56,11 @@ const UserProfile = () => {
 	return (
 		<Card>
 			<ProfileWrapper>
-				<Avator>{me.nickname[0]}</Avator>
+				<Link href={`/user/${me.id}`}>
+					<a>
+						<Avatar>{me.nickname[0]}</Avatar>
+					</a>
+				</Link>
 				<Profile>
 					<NickName>{me.nickname}</NickName>
 					<button onClick={logOut}>로그아웃</button>

@@ -17,15 +17,16 @@ const Title = styled.div`
 const BlockButton = styled.button``;
 const LoadMoreButton = styled.button``;
 
-const FollowerList = ({ header }) => {
+const FollowerList = ({ header, data, onClickMore, loading }) => {
 	const dispatch = useDispatch();
-	const data = useSelector(state => {
-		if (header === '팔로잉') {
-			return state.user.me.Followings;
-		} else {
-			return state.user.me.Followers;
-		}
-	});
+	// swr 로 대체
+	// const data = useSelector(state => {
+	// 	if (header === '팔로잉') {
+	// 		return state.user.me.Followings;
+	// 	} else {
+	// 		return state.user.me.Followers;
+	// 	}
+	// });
 	const onBlock = useCallback(id => {
 		if (header === '팔로잉') {
 			dispatch({
@@ -56,7 +57,7 @@ const FollowerList = ({ header }) => {
 					  ))
 					: null}
 			</ListItem>
-			<LoadMoreButton>더보기</LoadMoreButton>
+			<LoadMoreButton onClick={onClickMore}>더보기</LoadMoreButton>
 		</List>
 	);
 };

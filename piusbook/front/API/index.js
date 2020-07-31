@@ -85,6 +85,17 @@ const uploadImagesAPI = data => {
 const retweetAPI = data => {
 	return axios.post(`post/${data.PostId}/retweet`);
 };
+
+function loadUserAPI(data) {
+	return axios.get(`/user/${data}`);
+}
+
+const loadUserPostsAPI = (data, lastId) => {
+	return axios.get(`/user/${data}/posts?lastId=${lastId || 0}`);
+};
+const loadHashtagPostsAPI = (data, lastId) => {
+	return axios.get(`hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
+};
 export {
 	registerUser,
 	loginUser,
@@ -105,4 +116,7 @@ export {
 	uploadImagesAPI,
 	retweetAPI,
 	loadAPostAPI,
+	loadUserAPI,
+	loadUserPostsAPI,
+	loadHashtagPostsAPI,
 };

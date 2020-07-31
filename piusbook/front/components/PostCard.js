@@ -20,7 +20,7 @@ import {
 	REMOVE_POST_REQUEST,
 	RETWEET_REQUEST,
 } from '../actions';
-
+import Link from 'next/link';
 const PostCardWrapper = styled.div`
 	margin: 10px 5px;
 `;
@@ -115,7 +115,13 @@ const PostCard = ({ post }) => {
 				{post.RetweetId && post.Retweet ? (
 					<>
 						<Card.Meta
-							avatar={post.User.nickname[0]}
+							avatar={
+								<Link href={`/user/${post.User.id}`}>
+									<a>
+										<Avatar>{post.User.nickname[0]}</Avatar>
+									</a>
+								</Link>
+							}
 							title={post.User.nickname}
 							description={`${post.User.nickname}님이 리트윗하였습니다.`}
 						></Card.Meta>
@@ -139,7 +145,13 @@ const PostCard = ({ post }) => {
 					</>
 				) : (
 					<Card.Meta
-						avatar={post.User.nickname[0]}
+						avatar={
+							<Link href={`/user/${post.User.id}`}>
+								<a>
+									<Avatar>{post.User.nickname[0]}</Avatar>
+								</a>
+							</Link>
+						}
 						title={post.User.nickname}
 						description={
 							<PostCardContent postData={post.content}></PostCardContent>

@@ -5,7 +5,7 @@ const PostCardContent = ({ postData }) => {
 	return (
 		<div>
 			{/* {postData} */}
-			{postData.split(/(#[a-z0-9_]+)/gi).map((item, idx) => {
+			{postData.split(/(#[^\s#]+)/gi).map((item, idx) => {
 				// console.log(item);
 				// return item;
 				if (item !== '' && item[0] === '#') {

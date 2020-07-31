@@ -32,6 +32,12 @@ import {
 	LOAD_A_POST_REQUEST,
 	LOAD_A_POST_SUCCESS,
 	LOAD_A_POST_FAILURE,
+	LOAD_USER_POSTS_REQUEST,
+	LOAD_HASHTAG_POSTS_REQUEST,
+	LOAD_USER_POSTS_SUCCESS,
+	LOAD_HASHTAG_POSTS_SUCCESS,
+	LOAD_USER_POSTS_FAILURE,
+	LOAD_HASHTAG_POSTS_FAILURE,
 } from '../actions';
 
 export const initialState = {
@@ -248,10 +254,14 @@ const reducer = (state = initialState, action) => {
 				draftState.removePostLoading = false;
 				draftState.removePostError = action.data;
 				break;
+			case LOAD_USER_POSTS_REQUEST:
+			case LOAD_HASHTAG_POSTS_REQUEST:
 			case LOAD_POST_REQUEST:
 				draftState.loadPostLoading = true;
 				draftState.loadPostDone = false;
 				break;
+			case LOAD_USER_POSTS_SUCCESS:
+			case LOAD_HASHTAG_POSTS_SUCCESS:
 			case LOAD_POST_SUCCESS:
 				draftState.loadPostLoading = false;
 				draftState.loadPostDone = true;
@@ -259,6 +269,8 @@ const reducer = (state = initialState, action) => {
 				draftState.mainPosts = draftState.mainPosts.concat(action.data);
 				draftState.hasMorePosts = action.data.length === 10;
 				break;
+			case LOAD_USER_POSTS_FAILURE:
+			case LOAD_HASHTAG_POSTS_FAILURE:
 			case LOAD_POST_FAILURE:
 				draftState.loadPostError = action.data;
 				break;

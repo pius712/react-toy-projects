@@ -2,12 +2,16 @@ import React from 'react';
 import wrapper from '../../store/configureStore';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
-import { LOAD_A_POST_REQUEST, LOAD_MY_INFO_REQUEST } from '../../actions';
+import {
+	LOAD_A_POST_REQUEST,
+	LOAD_MY_INFO_REQUEST,
+	LOAD_USER_REQUEST,
+} from '../../actions';
 import PostCard from '../../components/PostCard';
 import { END } from 'redux-saga';
 import axios from 'axios';
 import AppLayout from '../../components/AppLayout';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 const SinglePost = () => {
 	const { singlePost } = useSelector(state => state.post);
 	const router = useRouter();
@@ -51,6 +55,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async context => {
 	context.store.dispatch({
 		type: LOAD_MY_INFO_REQUEST,
 	});
+
 	context.store.dispatch({
 		type: LOAD_A_POST_REQUEST,
 		data: {
