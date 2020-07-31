@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import styled from 'styled-components';
-
+import { backUrl } from '../config/config';
 import ZoomImage from './ZoomImage';
 const HalfImage = styled.img`
 	height: 100%;
@@ -59,15 +59,15 @@ const PostImages = ({ images }) => {
 	if (images.length === 1) {
 		return (
 			<>
-				<img src={images[0].src} alt="" />
+				<img src={`${backUrl}/${images[0].src}`} alt="" />
 			</>
 		);
 	}
 	if (images.length === 2) {
 		return (
 			<>
-				<HalfImage src={images[0].src}></HalfImage>
-				<HalfImage src={images[1].src}></HalfImage>
+				<HalfImage src={`${backUrl}/${images[0].src}`}></HalfImage>
+				<HalfImage src={`${backUrl}/${images[1].src}`}></HalfImage>
 			</>
 		);
 	}
@@ -77,19 +77,19 @@ const PostImages = ({ images }) => {
 			<ImageContainer>
 				<LeftImageContainer>
 					<HalfImage
-						src={`http://localhost:8080/${images[0].src}`}
+						src={`${backUrl}/${images[0].src}`}
 						alt=""
 						onClick={onZoomImage}
 					/>
 				</LeftImageContainer>
 				<RightImageContainer>
 					<UpperImage
-						src={`http://localhost:8080/${images[1].src}`}
+						src={`${backUrl}/${images[1].src}`}
 						onClick={onZoomImage}
 					></UpperImage>
 					<LowerImageContainer>
 						<LowerImageBackground
-							src={`http://localhost:8080/${images[2].src}`}
+							src={`${backUrl}/${images[2].src}`}
 							onClick={onZoomImage}
 						></LowerImageBackground>
 						<LowerImageForeground>더보기</LowerImageForeground>

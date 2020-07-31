@@ -7,6 +7,7 @@ import {
 	REMOVE_IMAGE,
 	ADD_POST_REQUEST,
 } from '../actions/index';
+import { backUrl } from '../config/config';
 const Form = styled.form`
 	margin: 20px 0;
 	background-color: #fff;
@@ -116,7 +117,7 @@ const PostForm = () => {
 			<div>
 				{imagePaths.map((image, idx) => (
 					<div key={image}>
-						<PreviewImage src={`http://localhost:8080/${image}`} />
+						<PreviewImage src={`${backUrl}/${image}`} />
 						<button onClick={() => onRemoveImage(idx)}>X</button>
 					</div>
 				))}
