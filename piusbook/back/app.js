@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === "production") {
 }
 app.use(
   cors({
-    origin: ["http://localhost:3000", "piusbook.com", "http://3.35.59.170"],
+    origin: ["http://localhost:80", "piusbook.com", "http://3.35.59.170"],
     credentials: true,
   })
 );
