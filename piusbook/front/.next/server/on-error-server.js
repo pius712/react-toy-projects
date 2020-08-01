@@ -88,12 +88,12 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-error-server!./");
+/******/ 	return __webpack_require__(__webpack_require__.s = "KqAr");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-error-server!./":
+/***/ "KqAr":
 /*!*******************************************************************************************************!*\
   !*** ./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-error-server ***!
   \*******************************************************************************************************/
