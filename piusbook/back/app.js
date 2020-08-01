@@ -65,6 +65,6 @@ app.use("/hashtag", hashtagRouter);
 // app.use((err,req,res,next)=>{
 
 // })
-app.listen(8080, () => {
+app.listen(80, () => {
   console.log("8080 server listening");
 });
