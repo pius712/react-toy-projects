@@ -11,6 +11,8 @@ const hashtagRouter = require("./routes/hashtag");
 const db = require("./models");
 const passportConfig = require("./passport");
 const path = require("path");
+const hpp = require("hpp");
+const helmet = require("helmet");
 dotenv.config();
 
 const app = express();
@@ -24,10 +26,16 @@ db.sequelize
   });
 passportConfig();
 
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "production") {
+  app.use(morgan("combined"));
+  app.use(helmet());
+  app.use(hpp());
+} else {
+  app.use(morgan("dev"));
+}
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://54.180.90.192"],
+    origin: ["http://localhost:3000", "piusbook.com", "http://54.180.90.192"],
     credentials: true,
   })
 );
