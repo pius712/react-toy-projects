@@ -45,7 +45,7 @@ app.use(
   session({
     saveUninitialized: false,
     resave: false,
-    secret: "piusbook",
+    secret: process.env.COOKIE_SECRET,
   })
 );
 app.use(passport.initialize());
