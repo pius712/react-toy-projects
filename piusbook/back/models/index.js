@@ -13,8 +13,8 @@ const sequelize = new Sequelize(
 db.User = require("./user")(sequelize, DataTypes, Model);
 db.Post = require("./post")(sequelize, DataTypes, Model);
 db.Comment = require("./comment")(sequelize, DataTypes, Model);
-db.Hashtag = require("./Hashtag")(sequelize, DataTypes, Model);
-db.Image = require("./Image")(sequelize, DataTypes, Model);
+db.Hashtag = require("./hashtag")(sequelize, DataTypes, Model);
+db.Image = require("./image")(sequelize, DataTypes, Model);
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
