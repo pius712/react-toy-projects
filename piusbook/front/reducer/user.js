@@ -190,7 +190,7 @@ const reducer = (state = initialState, action) => {
 				break;
 			case EDIT_NICKNAME_FAILURE:
 				draftState.editNicknameLoading = false;
-				draftState.editNicknameError = action.error;
+				draftState.editNicknameError = action.data;
 				break;
 			case ADD_POST_TO_ME: {
 				const newPost = {
@@ -299,7 +299,7 @@ const reducer = (state = initialState, action) => {
 				break;
 			case LOAD_USER_FAILURE:
 				draftState.loadUserLoading = false;
-				draftState.loadUserError = action.error;
+				draftState.loadUserError = action.data;
 				break;
 			default:
 				break;

@@ -141,7 +141,7 @@ function* loadMyInfo() {
 	} catch (err) {
 		yield put({
 			type: LOAD_MY_INFO_FAILURE,
-			data: err.response.message,
+			data: err.response.data,
 		});
 	}
 }
@@ -157,7 +157,7 @@ function* loadUser(action) {
 		console.error(err);
 		yield put({
 			type: LOAD_USER_FAILURE,
-			error: err.response.data,
+			data: err.response.data,
 		});
 	}
 }
@@ -171,7 +171,7 @@ function* editNickname(action) {
 	} catch (err) {
 		yield put({
 			type: EDIT_NICKNAME_FAILURE,
-			data: err.response.message,
+			data: err.response.data,
 		});
 	}
 }
@@ -185,7 +185,7 @@ function* loadFollowings() {
 	} catch (err) {
 		yield put({
 			type: LOAD_FOLLOWERS_FAILURE,
-			data: err.response.message,
+			data: err.response.data,
 		});
 	}
 }
@@ -199,7 +199,7 @@ function* loadFollowers() {
 	} catch (err) {
 		yield put({
 			type: LOAD_FOLLOWINGS_FAILURE,
-			data: err.response.message,
+			data: err.response.data,
 		});
 	}
 }
@@ -214,7 +214,7 @@ function* removeFollower(action) {
 		console.error(err);
 		yield put({
 			type: REMOVE_FOLLOWER_FAILURE,
-			data: err.response.message,
+			data: err.response.data,
 		});
 	}
 }
