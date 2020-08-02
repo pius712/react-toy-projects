@@ -1,2 +1,2 @@
-export const backUrl = 'http://3.34.25.198/';
+export const backUrl = 'http://api.fittil.com';
 // http://3.34.98.177';

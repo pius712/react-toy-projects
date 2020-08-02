@@ -5,36 +5,60 @@ const { isLoggedIn } = require("./middlewares");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-
+const AWS = require("aws-sdk");
+const s3 = new AWS.s3();
+const multerS3 = require("multer-s3");
 const router = express.Router();
 
-try {
-  fs.accessSync("uploads");
-} catch (error) {
-  fs.mkdirSync("uploads");
-}
+const myConfig = new AWS.Config();
+myConfig.update({
+  region: "ap-northeast-2",
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
 const upload = multer({
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      cb(null, "uploads");
-    },
-    filename(req, file, cb) {
-      const ext = path.extname(file.originalname);
-      const basename = path.basename(file.originalname, ext);
-      cb(null, basename + "_" + Date.now() + ext);
+  storage: multerS3({
+    s3: s3,
+    bucket: "react-fittil",
+    key: function (req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
     },
   }),
   limits: {
     fileSize: 20 * 1024 * 1024,
   },
 });
+
+//  S3로 업데이트 하기 위해서 코드 수정
+// try {
+//   fs.accessSync("uploads");
+// } catch (error) {
+//   fs.mkdirSync("uploads");
+// }
+// const upload = multer({
+//   storage: multer.diskStorage({
+//     destination(req, file, cb) {
+//       cb(null, "uploads");
+//     },
+//     filename(req, file, cb) {
+//       const ext = path.extname(file.originalname);
+//       const basename = path.basename(file.originalname, ext);
+//       cb(null, basename + "_" + Date.now() + ext);
+//     },
+//   }),
+//   limits: {
+//     fileSize: 20 * 1024 * 1024,
+//   },
+// });
+
 router.post(
   "/images",
   upload.array("image", 5),
   isLoggedIn,
   async (req, res, next) => {
     console.log(req.files);
-    res.json(req.files.map((file) => file.filename));
+    res.json(req.files.map((file) => file.location));
   }
 );
 // 게시글 작성 POST /post

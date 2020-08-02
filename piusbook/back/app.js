@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === "production") {
 }
 app.use(
   cors({
-    origin: ["http://localhost:80", "piusbook.com", "http://3.35.59.170"],
+    origin: ["http://localhost:80", "http://fittil.com"],
     credentials: true,
   })
 );
@@ -54,6 +54,11 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      domain: process.env.NODE_ENV === "production" && ".fittil.com",
+    },
   })
 );
 app.use(passport.initialize());
