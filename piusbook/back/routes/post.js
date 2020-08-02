@@ -6,7 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const AWS = require("aws-sdk");
-const s3 = new AWS.s3();
+const s3 = new AWS.S3();
 const multerS3 = require("multer-s3");
 const router = express.Router();
 
