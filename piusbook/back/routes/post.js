@@ -51,13 +51,14 @@ const upload = multer({
 //     fileSize: 20 * 1024 * 1024,
 //   },
 // });
-
 router.post(
   "/images",
   upload.array("image", 5),
   isLoggedIn,
   async (req, res, next) => {
     console.log(req.files);
+    // res.json(req.files.map((file) => file.filename));
+    // s3 변경 후
     res.json(req.files.map((file) => file.location));
   }
 );

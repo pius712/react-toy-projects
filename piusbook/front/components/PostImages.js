@@ -59,15 +59,15 @@ const PostImages = ({ images }) => {
 	if (images.length === 1) {
 		return (
 			<>
-				<img src={`${backUrl}/${images[0].src}`} alt="" />
+				<img src={images[0].src} alt="" />
 			</>
 		);
 	}
 	if (images.length === 2) {
 		return (
 			<>
-				<HalfImage src={`${backUrl}/${images[0].src}`}></HalfImage>
-				<HalfImage src={`${backUrl}/${images[1].src}`}></HalfImage>
+				<HalfImage src={images[0].src}></HalfImage>
+				<HalfImage src={images[1].src}></HalfImage>
 			</>
 		);
 	}
@@ -76,20 +76,13 @@ const PostImages = ({ images }) => {
 		<>
 			<ImageContainer>
 				<LeftImageContainer>
-					<HalfImage
-						src={`${backUrl}/${images[0].src}`}
-						alt=""
-						onClick={onZoomImage}
-					/>
+					<HalfImage src={images[0].src} alt="" onClick={onZoomImage} />
 				</LeftImageContainer>
 				<RightImageContainer>
-					<UpperImage
-						src={`${backUrl}/${images[1].src}`}
-						onClick={onZoomImage}
-					></UpperImage>
+					<UpperImage src={images[1].src} onClick={onZoomImage}></UpperImage>
 					<LowerImageContainer>
 						<LowerImageBackground
-							src={`${backUrl}/${images[2].src}`}
+							src={images[2].src}
 							onClick={onZoomImage}
 						></LowerImageBackground>
 						<LowerImageForeground>더보기</LowerImageForeground>

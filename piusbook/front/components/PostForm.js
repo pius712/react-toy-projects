@@ -117,7 +117,7 @@ const PostForm = () => {
 			<div>
 				{imagePaths.map((image, idx) => (
 					<div key={image}>
-						<PreviewImage src={`${backUrl}/${image}`} />
+						<PreviewImage src={image} />
 						<button onClick={() => onRemoveImage(idx)}>X</button>
 					</div>
 				))}
